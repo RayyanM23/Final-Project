@@ -19,7 +19,7 @@
 
 </html>
 <h2>Expense Table</h2>
-<table>
+<table id="expenseTable">
     <tr>
         <th>Source</th>
         <th>Expense/Income</th>
@@ -27,15 +27,38 @@
     </tr>
 </table>
 
-<form>
+<form id="expenseForm">
     <label for="source">Source:</label><br>
-    <input type="text" id="source" name="source"><br><br>
-    <label for="expense/income">Expense/Income:</label><br>
-    <select name="expense/income" id="expense/income">
-    <option value ="expense">Expense</option>
-    <option value ="income">Income</option>
-  </select><br><br>
+    <input type="text" id="source" name="source" required><br><br>
+
+    <label for="expenseIncome">Expense/Income:</label><br>
+    <select name="expenseIncome" id="expenseIncome">
+        <option value="Expense">Expense</option>
+        <option value="Income">Income</option>
+    </select><br><br>
 
     <label for="amount">Amount:</label><br>
-    <input type="number" id="amount" name="source"><br>
+    <input type="number" id="amount" name="amount" required><br><br>
+
+    <button type="button" onclick="addExpense()">Add</button>
 </form>
+
+<script>
+    function addExpense() {
+        const source = document.getElementById("source").value;
+        const expenseIncome = document.getElementById("expenseIncome").value;
+        const amount = document.getElementById("amount").value;
+
+        const table = document.getElementById("expenseTable");
+        const row = table.insertRow();
+        const sourceCell = row.insertCell(0);
+        const typeCell = row.insertCell(1);
+        const amountCell = row.insertCell(2);
+
+        sourceCell.innerText = source;
+        typeCell.innerText = expenseIncome;
+        amountCell.innerText = amount;
+
+        document.getElementById("expenseForm").reset();
+    }
+</script>
