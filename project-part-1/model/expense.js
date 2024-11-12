@@ -1,9 +1,12 @@
 const mongoose = require("mongoose");
 
 let expenseModel = mongoose.Schema({
-    Name: String
+    Type: String,
+    Category:String,
+    Details:String,
+    Amount:String
 },
 {
     collection:"Expense"
 });
-module.exports = mongoose.model('expense',expenseModel);
+module.exports = mongoose.model('Expense',expenseModel);

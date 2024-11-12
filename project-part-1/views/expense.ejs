@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/fontawesome-free/css/all.min.css"/>
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+    <title><%= title %></title>
+</head>
+<body>
+    <main class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <h1><%= title %></h1>
+                <a href="/expenseList/add" class="btn btn-primary" role="button">
+                    <i class="fas fa-plus-circle"></i> Add Income/Expense
+                </a>
+                <table class="table table-bordered table-striped table-hover">
+                    <tr class="d-flex">
+                        <th class="text-center col">Type</th>
+                        <th class="text-center col">Category</th>
+                        <th class="text-center col">Details</th>
+                        <th class="text-center col">Amount</th>
+                        <th class="text-center col">Options</th>
+                    </tr>
+                    <% for(let count=0;count<expenseList.length;count++) { %>
+                        <tr class="d-flex">
+                            <td class="col"><%= expenseList[count].Type %></td>
+                            <td class="col"><%= expenseList[count].Category %></td>
+                            <td class="col"><%= expenseList[count].Details %></td>
+                            <td class="col"><%= expenseList[count].Amount %></td>
+                            <td class="text-center col">
+                                <a href="/expenseList/edit/<%= expenseList[count]._id%>" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-pencil-alt"></i> Edit
+                                </a>
+                                <a href="/expenseList/delete/<%= expenseList[count]._id%>" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    <% } %>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
