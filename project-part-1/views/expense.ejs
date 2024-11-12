@@ -9,6 +9,17 @@
     <title>
         <%= title %>
     </title>
+    <script>
+        function adjustAmount() {
+            const typeSelect = document.getElementById("expenseIncome");
+            const amountInput = document.getElementById("amountTextField");
+
+            amountInput.value = Math.abs(amountInput.value);
+            if (typeSelect.value === "Expense") {
+                amountInput.value *= -1;
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -36,6 +47,7 @@
                                 <tr class="d-flex">
                                     <td class="col">
                                         <%= expenseList[count].Type %>
+                                    </td>
                                     </td>
                                     <td class="col">
                                         <%= expenseList[count].Category %>
