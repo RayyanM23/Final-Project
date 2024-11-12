@@ -32,7 +32,7 @@
                     </tr>
                     <% let runningTotal = 0; %>
                         <% for (let count = 0; count < expenseList.length; count++) { %>
-                            <% runningTotal += expenseList[count].Amount; %>
+                            <% runningTotal += +expenseList[count].Amount; %>
                                 <tr class="d-flex">
                                     <td class="col">
                                         <%= expenseList[count].Type %>
@@ -47,7 +47,7 @@
                                         <%= expenseList[count].Amount %>
                                     </td>
                                     <td class="col-md-2">
-                                        <%= runningTotal %>
+                                        <%= runningTotal.toFixed(2) %>
                                     </td>
 
                                     <td class="text-center col">
