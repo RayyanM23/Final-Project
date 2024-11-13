@@ -9,17 +9,6 @@
     <title>
         <%= title %>
     </title>
-    <script>
-        function adjustAmount() {
-            const typeSelect = document.getElementById("expenseIncome");
-            const amountInput = document.getElementById("amountTextField");
-
-            amountInput.value = Math.abs(amountInput.value);
-            if (typeSelect.value === "Expense") {
-                amountInput.value *= -1;
-            }
-        }
-    </script>
 </head>
 
 <body>
@@ -38,16 +27,13 @@
                         <th class="text-center col">Category</th>
                         <th class="text-center col">Details</th>
                         <th class="text-center col">Amount</th>
-                        <th class="text-center col">Total</th>
                         <th class="text-center col">Options</th>
                     </tr>
                     <% let runningTotal = 0; %>
                         <% for (let count = 0; count < expenseList.length; count++) { %>
-                            <% runningTotal += +expenseList[count].Amount; %>
                                 <tr class="d-flex">
                                     <td class="col">
                                         <%= expenseList[count].Type %>
-                                    </td>
                                     </td>
                                     <td class="col">
                                         <%= expenseList[count].Category %>
@@ -56,12 +42,14 @@
                                         <%= expenseList[count].Details %>
                                     </td>
                                     <td class="col">
-                                        <%= expenseList[count].Amount %>
+                                        <% if (expenseList[count].Type === "Expense") { %>
+                                            <% runningTotal += expenseList[count].Amount * -1 %>
+                                            <%= expenseList[count].Amount * -1 %>
+                                        <% } else { %>
+                                            <% runningTotal += expenseList[count].Amount %>
+                                            <%= expenseList[count].Amount %>
+                                        <% } %>
                                     </td>
-                                    <td class="col-md-2">
-                                        <%= runningTotal.toFixed(2) %>
-                                    </td>
-
                                     <td class="text-center col">
                                         <a href="/expenseList/edit/<%= expenseList[count]._id%>" class="btn btn-primary btn-sm">
                                             <i class="fas fa-pencil-alt"></i> Edit
@@ -72,6 +60,11 @@
                                     </td>
                                 </tr>
                                 <% } %>
+                                <tr>
+                                    <td class="text-center col-md-2 table-success">
+                                        Net Total: <%= runningTotal %>
+                                    </td>
+                                </tr>
                 </table>
             </div>
         </div>

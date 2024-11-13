@@ -4,7 +4,7 @@ let expenseModel = mongoose.Schema({
     Type: String,
     Category:String,
     Details:String,
-    Amount:String
+    Amount:Number
 },
 {
     collection:"Expense"
