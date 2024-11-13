@@ -31,38 +31,39 @@
                     </tr>
                     <% let runningTotal = 0; %>
                         <% for (let count = 0; count < expenseList.length; count++) { %>
-                                <tr class="d-flex">
-                                    <td class="col">
-                                        <%= expenseList[count].Type %>
-                                    </td>
-                                    <td class="col">
-                                        <%= expenseList[count].Category %>
-                                    </td>
-                                    <td class="col">
-                                        <%= expenseList[count].Details %>
-                                    </td>
-                                    <td class="col">
-                                        <% if (expenseList[count].Type === "Expense") { %>
-                                            <% runningTotal += expenseList[count].Amount * -1 %>
+                            <tr class="d-flex">
+                                <td class="col">
+                                    <%= expenseList[count].Type %>
+                                </td>
+                                <td class="col">
+                                    <%= expenseList[count].Category %>
+                                </td>
+                                <td class="col">
+                                    <%= expenseList[count].Details %>
+                                </td>
+                                <td class="col">
+                                    <% if (expenseList[count].Type === "Expense") { %>
+                                        <% runningTotal += +expenseList[count].Amount * -1 %>
                                             <%= expenseList[count].Amount * -1 %>
-                                        <% } else { %>
-                                            <% runningTotal += expenseList[count].Amount %>
-                                            <%= expenseList[count].Amount %>
-                                        <% } %>
-                                    </td>
-                                    <td class="text-center col">
-                                        <a href="/expenseList/edit/<%= expenseList[count]._id%>" class="btn btn-primary btn-sm">
-                                            <i class="fas fa-pencil-alt"></i> Edit
-                                        </a>
-                                        <a href="/expenseList/delete/<%= expenseList[count]._id%>" class="btn btn-danger btn-sm">
-                                            <i class="fas fa-trash-alt"></i> Delete
-                                        </a>
-                                    </td>
-                                </tr>
-                                <% } %>
+                                                <% } else { %>
+                                                    <% runningTotal+= +expenseList[count].Amount %>
+                                                        <%= expenseList[count].Amount %>
+                                                            <% } %>
+                                </td>
+                                <td class="text-center col">
+                                    <a href="/expenseList/edit/<%= expenseList[count]._id%>" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-pencil-alt"></i> Edit
+                                    </a>
+                                    <a href="/expenseList/delete/<%= expenseList[count]._id%>" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </a>
+                                </td>
+                            </tr>
+                            <% } %>
                                 <tr>
                                     <td class="text-center col-md-2 table-success">
-                                        Net Total: <%= runningTotal %>
+                                        Net Total:
+                                        <%= runningTotal %>
                                     </td>
                                 </tr>
                 </table>
