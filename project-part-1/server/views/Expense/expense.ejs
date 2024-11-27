@@ -1,0 +1,61 @@
+<%- include ../Partials/header.ejs%>
+<%- include ../Partials/main_nav.ejs%>
+<br>
+<br>
+<main class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1><%= title %></h1>
+            <a href="/expenseList/add" class="btn btn-primary" role="button">
+                <i class="fas fa-plus-circle"></i> Add Income/Expense
+            </a>
+            <table class="table table-bordered table-striped table-hover">
+                <tr class="d-flex">
+                    <th class="text-center col-1">Type</th>
+                    <th class="text-center col">Category</th>
+                    <th class="text-center col-4">Details</th>
+                    <th class="text-center col-2">Amount</th>
+                    <th class="text-center col-2">Options</th>
+                </tr>
+                <% let runningTotal = 0; %>
+                    <% for (let count = 0; count < expenseList.length; count++) { %>
+                        <tr class="d-flex">
+                            <td class="col-1">
+                                <%= expenseList[count].Type %>
+                            </td>
+                            <td class="col">
+                                <%= expenseList[count].Category %>
+                            </td>
+                            <td class="col-4">
+                                <%= expenseList[count].Details %>
+                            </td>
+                            <td class="col-2">
+                                <% if (expenseList[count].Type === "Expense") { %>
+                                    <% runningTotal += +expenseList[count].Amount * -1 %>
+                                        <%= expenseList[count].Amount * -1 %>
+                                            <% } else { %>
+                                                <% runningTotal+= +expenseList[count].Amount %>
+                                                    <%= expenseList[count].Amount %>
+                                                        <% } %>
+                            </td>
+                            <td class="text-center col-2">
+                                <a href="/expenseList/edit/<%= expenseList[count]._id%>" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-pencil-alt"></i> Edit
+                                </a>
+                                <a href="/expenseList/delete/<%= expenseList[count]._id%>" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                        <% } %>
+                            <tr>
+                                <td class="text-center col-md-2 table-success">
+                                    Net Total:
+                                    <%= runningTotal %>
+                                </td>
+                            </tr>
+            </table>
+        </div>
+    </div>
+</main>
+<%- include ../Partials/footer.ejs%>

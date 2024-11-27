@@ -8,13 +8,13 @@ let Expense = require('../model/expense');
 router.get('/',async(req,res,next)=>{
 try{
     const expenseList = await Expense.find();
-    res.render('expense',{
+    res.render('Expense/expense',{
         title:'Expense Calculator',
         expenseList:expenseList
     })}
     catch(err){
         console.error(err);
-        res.render('expense',{
+        res.render('Expense/expense',{
             error:'Error on the Server'
         })
     }
@@ -23,14 +23,14 @@ try{
 /* Create Operation --> Get route for displaying me the Add Page */
 router.get('/add',async(req,res,next)=>{
     try{
-        res.render('add',{
+        res.render('Expense/add',{
             title: 'Add Income/Expense'
         })
     }
     catch(err)
     {
         console.error(err);
-        res.render('expense',{
+        res.render('Expense/expense',{
             error:'Error on the server'
         })
     }
@@ -51,7 +51,7 @@ router.post('/add',async(req,res,next)=>{
     catch(err)
     {
         console.error(err);
-        res.render('expense',{
+        res.render('Expense/expense',{
             error:'Error on the server'
         })
     }
@@ -62,7 +62,7 @@ router.get('/edit/:id',async(req,res,next)=>{
     try{
         const id = req.params.id;
         const expenseToEdit= await Expense.findById(id);
-        res.render('edit',
+        res.render('Expense/edit',
             {
                 title:'Edit Income/Expense',
                 Expense:expenseToEdit
@@ -92,7 +92,7 @@ router.post('/edit/:id',async(req,res,next)=>{
     }
     catch(err){
         console.error(err);
-        res.render('expense',{
+        res.render('Expense/expense',{
             error:'Error on the server'
         })
     }
@@ -108,7 +108,7 @@ router.get('/delete/:id',async(req,res,next)=>{
     }
     catch(error){
         console.error(err);
-        res.render('expense',{
+        res.render('Expense/expense',{
             error:'Error on the server'
         })
     }
