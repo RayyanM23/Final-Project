@@ -25,13 +25,13 @@ const mongoose = require('mongoose');
 let DB = require('./db');
 mongoose.connect(DB.URI);
 let mongoDB = mongoose.connection;
-mongoDB.on('error',console.error.bind(console,'Connection Error'));
-mongoDB.once('open',()=>{console.log("Connected with MongoDB")});
-mongoose.connect(DB.URI,{useNewURIParser:true,useUnifiedTopology:true});
+mongoDB.on('error', console.error.bind(console, 'Connection Error'));
+mongoDB.once('open', () => { console.log("Connected with MongoDB") });
+mongoose.connect(DB.URI, { useNewURIParser: true, useUnifiedTopology: true });
 
 // Set up express-session
 app.use(session({
-    secret:"SomeSecret",
+    secret: "SomeSecret",
     saveUninitialized: false,
     resave: false
 }));
