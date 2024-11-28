@@ -8,17 +8,32 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto">
+                <!-- Register button -->
                 <li class="nav-item">
-                    <li><a href="/users/register" class="btn-register">Register</a></li>
-
-                    <%if (title == "Home") { %>
-                        <a class="nav-link active" href="/expenseList">
-                            <% } else { %>
-                                <a class="nav-link" href="/expenseList">
-                                    <% } %>
-
-                                        <i class="fa-solid fa-house"></i> Home</a>
+                    <a href="/users/register" class="btn-register">Register</a>
                 </li>
+
+                <!-- Login button, only show if the user is not logged in -->
+                <% if (!user) { %>
+                    <li class="nav-item">
+                        <a href="/login" class="btn-login">Login</a>
+                    </li>
+                    <% } else { %>
+                        <!-- Show Logout button if the user is logged in -->
+                        <li class="nav-item">
+                            <a href="/logout" class="btn-logout">Logout</a>
+                        </li>
+                        <% } %>
+
+                            <!-- Home button -->
+                            <li class="nav-item">
+                                <% if (title == "Home") { %>
+                                    <a class="nav-link active" href="/expenseList">
+                                        <% } else { %>
+                                            <a class="nav-link" href="/expenseList">
+                                                <% } %>
+                                                    <i class="fa-solid fa-house"></i> Home</a>
+                            </li>
             </ul>
         </div>
     </div>

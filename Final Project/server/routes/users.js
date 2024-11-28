@@ -1,16 +1,34 @@
-var express = require('express');
-var router = express.Router();
+// Import express and create a router
+const express = require('express');
+const router = express.Router(); // Use router here, not app
 
-router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
-});
+router.post('/register', (req, res) => {
+    const { username, email, password, confirmPassword } = req.body;
 
-router.get('/Auth/register', (req, res) => {
-    res.render('register');
-});
+    if (password !== confirmPassword) {
+        req.flash('message', 'Passwords do not match');
+        return res.redirect('/register');
+    }
 
-router.get('/Auth/login', (req, res) => {
-    res.render('login');
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
+        if (err) {
+            req.flash('message', 'Error hashing password');
+            return res.redirect('/register');
+        }
+
+        const newUser = new User({
+            username,
+            email,
+            password: hashedPassword,
+        });
+
+        newUser.save()
+            .then(() => res.redirect('/login')) // Redirect to login page on success
+            .catch(err => {
+                req.flash('message', err.message);
+                res.redirect('/register');
+            });
+    });
 });
 
 module.exports = router;
