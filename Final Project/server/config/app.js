@@ -1,15 +1,11 @@
-var express = require('express');
-var createError = require('http-errors');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var session = require('express-session');
-var passport = require('passport');
-var passportLocal = require('passport-local');
-var flash = require('connect-flash');
+let express = require('express');
+let createError = require('http-errors');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
 
 // Initialize express app
-var app = express();
+let app = express();
 
 // Middleware to make `user` available globally in views
 app.use(function(req, res, next) {
@@ -19,18 +15,24 @@ app.use(function(req, res, next) {
 
 let userModel = require('../model/User');
 let User = userModel.User;
-var indexRouter = require('../routes/index');
-var usersRouter = require('../routes/users');
-var expenseRouter = require('../routes/expense');
+let indexRouter = require('../routes/index');
+let usersRouter = require('../routes/users');
+let expenseRouter = require('../routes/expense');
 
 // View engine setup
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
+let session = require('express-session')
+let passport = require('passport')
+let passportLocal = require('passport-local')
+let flash = require('connect-flash');
+passport.use(User.createStrategy());
+let localStrategy = passportLocal.Strategy;
 
 // MongoDB connection
 const mongoose = require('mongoose');
 let DB = require('./db');
-mongoose.connect(DB.URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(DB.URI);
 let mongoDB = mongoose.connection;
 mongoDB.on('error', console.error.bind(console, 'Connection Error'));
 mongoDB.once('open', () => { console.log("Connected with MongoDB") });
@@ -41,10 +43,8 @@ app.use(session({
     saveUninitialized: false,
     resave: false
 }));
-
 // Flash and Passport setup
 app.use(flash());
-passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 app.use(passport.initialize());
@@ -58,38 +58,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../public')));
 app.use(express.static(path.join(__dirname, '../../node_modules')));
 
-// Define routes
-app.get('/Auth/register', (req, res) => {
-    res.render('register', { message: req.flash('message') });
-});
-
-app.post('/register', (req, res) => {
-    const { username, email, password, confirmPassword } = req.body;
-
-    // Check if passwords match
-    if (password !== confirmPassword) {
-        req.flash('message', 'Passwords do not match');
-        return res.redirect('/register');
-    }
-
-    // Create new user
-    const newUser = new User({
-        username,
-        email,
-        password,
-    });
-
-    // Save user to database
-    newUser.save()
-        .then(() => res.redirect('/login')) // Redirect to login page after successful registration
-        .catch(err => {
-            req.flash('message', err.message);
-            res.redirect('/register'); // If error, stay on register page
-        });
-});
-
 // Routes
-app.use('/', expenseRouter);
+app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/expenseList', expenseRouter);
 

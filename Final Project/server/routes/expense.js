@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 let mongoose = require('mongoose');
-let Expense = require('../model/expense'); // Ensure the correct path for your model
+let Expense = require('../model/expense');
 
 // Read Operation --> Get route for displaying the income/expenses
 router.get('/', async(req, res, next) => {
@@ -9,6 +9,7 @@ router.get('/', async(req, res, next) => {
         const expenseList = await Expense.find();
         res.render('Expense/expense', {
             title: 'Expense Calculator',
+            displayName: req.user ? req.user.displayName:'',
             expenseList: expenseList
         });
     } catch (err) {
@@ -23,7 +24,8 @@ router.get('/', async(req, res, next) => {
 router.get('/add', async(req, res, next) => {
     try {
         res.render('Expense/add', {
-            title: 'Add Income/Expense'
+            title: 'Add Income/Expense',
+            displayName: req.user ? req.user.displayName:''
         });
     } catch (err) {
         console.error(err);
@@ -59,6 +61,7 @@ router.get('/edit/:id', async(req, res, next) => {
         const expenseToEdit = await Expense.findById(id);
         res.render('Expense/edit', {
             title: 'Edit Income/Expense',
+            displayName: req.user ? req.user.displayName:'',
             Expense: expenseToEdit
         });
     } catch (err) {
