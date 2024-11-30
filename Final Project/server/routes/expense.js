@@ -3,6 +3,13 @@ var router = express.Router();
 let mongoose = require('mongoose');
 let Expense = require('../model/expense');
 
+function requireAuth(req,res,next){
+    if(!req.isAuthenticated()){
+        return res.redirect('/login');
+    }
+    next();
+}
+
 // Read Operation --> Get route for displaying the income/expenses
 router.get('/', async(req, res, next) => {
     try {
@@ -21,7 +28,7 @@ router.get('/', async(req, res, next) => {
 });
 
 // Create Operation --> Get route for displaying the Add Page
-router.get('/add', async(req, res, next) => {
+router.get('/add', requireAuth, async(req, res, next) => {
     try {
         res.render('Expense/add', {
             title: 'Add Income/Expense',
@@ -35,33 +42,26 @@ router.get('/add', async(req, res, next) => {
     }
 });
 
-// Create Operation --> Post route for processing the Add Page
-router.post('/add', async(req, res, next) => {
-    if (!req.user) { // If the user is not logged in
-        return res.render('Auth/login', { // Redirect to the login page
-            errorMessage: 'You must be logged in to add an expense.' // Show the error message
+/* Create Operation --> Post route for processing the Add Page*/
+router.post('/add', async(req,res,next) => {
+    try{
+        let newExpense = Expense({
+            "Type": req.body.Type,
+            "Category": req.body.Category,
+            "Details": req.body.Details,
+            "Amount": req.body.Amount
         });
+        Expense.create(newExpense).then(()=>{
+            res.redirect('/expenseList')
+        })
     }
-
-    try {
-        // Create a new expense only if the user is logged in
-        let newExpense = new Expense({
-            Type: req.body.Type,
-            Category: req.body.Category,
-            Details: req.body.Details,
-            Amount: req.body.Amount,
-            user: req.user._id // Link the expense to the logged-in user's ID
-        });
-
-        // Save the new expense to the database
-        await Expense.create(newExpense);
-        res.redirect('/expenseList'); // Redirect to the expense list after successful creation
-    } catch (err) {
+    catch(err){
         console.error(err);
-        res.render('Expense/expense', { error: 'Error on the server' });
+        res.render('Expense/expense',{
+            error:'Error on the Server'
+        })
     }
 });
-
 
 // Update Operation --> Get route for displaying the Edit Page
 router.get('/edit/:id', async(req, res, next) => {
