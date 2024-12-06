@@ -1,49 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <link rel="stylesheet" href="/styles.css">
-</head>
-
-<body>
+<%- include ../Partials/header.ejs%>
+<%- include ../Partials/main_nav.ejs%>
+<br>
     <div class="container">
-        <h1>Create an Account</h1>
-
         <% if (message) { %>
             <div class="alert">
                 <%= message %>
             </div>
-            <% } %>
-
+        <% } %>
+        <div class="row">
+            <div class="offset-md-4 col-md-4">
+                <h1>Create an Account</h1>
                 <form method="POST">
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" id="username" name="username" required placeholder="Enter your username">
+                        <input type="text" class="form-control" id="username" name="username" required placeholder="Enter your username">
                     </div>
 
                     <div class="form-group">
                         <label for="displayName">Display Name</label>
-                        <input type="text" id="displayName" name="displayName" required placeholder="Enter your Display Name">
+                        <input type="text" class="form-control" id="displayName" name="displayName" required placeholder="Enter your Display Name">
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required placeholder="Enter your email">
+                        <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your email">
                     </div>
 
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required placeholder="Enter your password">
+                        <input type="password" class="form-control" id="password" name="password" required placeholder="Enter your password">
                     </div>
 
-                    <button type="submit">Register</button>
+                    <button type="submit" class="btn btn-success">Register</button>
                 </form>
-
                 <p>Already have an account? <a href="/login">Login here</a></p>
+            </div>
+        </div>
     </div>
-</body>
-
-</html>
+<%- include ../Partials/footer.ejs%>
